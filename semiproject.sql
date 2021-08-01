@@ -11,6 +11,9 @@ DROP TABLE NOTICE CASCADE CONSTRAINTS;
 DROP TABLE QUESTION CASCADE CONSTRAINTS;
 DROP TABLE FAQ CASCADE CONSTRAINTS;
 DROP TABLE PICTURES CASCADE CONSTRAINTS;
+DROP TABLE FREE CASCADE CONSTRAINTS;
+DROP TABLE QNA CASCADE CONSTRAINTS;
+DROP TABLE REVIEW CASCADE CONSTRAINTS;
 
 -- 기존에 존재하는 시퀀스 삭제
 DROP SEQUENCE ITEM_SEQ;
@@ -281,6 +284,42 @@ NOMAXVALUE
 NOCYCLE
 NOCACHE;
 
+-- 자유게시판 테이블 생성
+CREATE TABLE FREE(
+ FREE_NO NUMBER,
+ FREE_TITLE VARCHAR2(50),
+ FREE_WRITER VARCHAR2(20),
+ FREE_DATE DATE DEFAULT SYSDATE,
+ FREE_CONTENT VARCHAR2(2048),
+ FREE_LIKE NUMBER,
+ FREE_READCOUNT NUMBER DEFAULT 0,
+ CONSTRAINT PK_FREE PRIMARY KEY (FREE_NO)
+);
+
+-- QNA 테이블 생성
+CREATE TABLE QNA(
+ QNA_NO NUMBER,
+ QNA_TITLE VARCHAR2(60),
+ QNA_WRITER VARCHAR2(20),
+ QNA_DATE DATE DEFAULT SYSDATE,
+ QNA_CONTENT VARCHAR2(2048),
+ QNA_AVAILABLE NUMBER,
+ QNA_READCOUNT NUMBER DEFAULT 0,
+ CONSTRAINT PK_QNA PRIMARY KEY (QNA_NO)
+);
+
+-- REVIEW 테이블 생성
+CREATE TABLE REVIEW(
+ REVIEW_NO NUMBER,
+ REVIEW_TITLE VARCHAR2(50),
+ REVIEW_WRITER VARCHAR2(20),
+ REVIEW_DATE DATE DEFAULT SYSDATE,
+ REVIEW_CONTENT VARCHAR2(2048),
+ REVIEW_STAR NUMBER,
+ REVIEW_READCOUNT NUMBER DEFAULT 0,
+ CONSTRAINT PK_REVIEW PRIMARY KEY (REVIEW_NO)
+);
+
 -- 사용자 테이블 예시 컬럼값 삽입
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '사용자1', 'user01@ict.edu', 'pass01', 'user01@ict.edu', '01044321239', null, 280, default, default, null, null, default);
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '사용자2', 'user02@ict.edu', 'pass02', 'user02@ict.edu', '01022391212', null, 240, default, default, null, null, default);
@@ -477,6 +516,82 @@ INSERT INTO WISH_LIST VALUES (4, 5, 4);
 INSERT INTO WISH_LIST VALUES (5, 5, 5);
 INSERT INTO WISH_LIST VALUES (6, 5, 6);
 INSERT INTO WISH_LIST VALUES (7, 5, 7);
+
+-- 자유게시판 테이블 예시 컬럼값 삽입
+INSERT INTO FREE VALUES(1, '자유', '홍길동', SYSDATE, 
+'덩크 드로우 전부 광탈!', 1 , 722);
+INSERT INTO FREE VALUES(2, '게시판', '이순신', SYSDATE, 
+'특이점이 온 조던 케이스.jpg (feat.리버풀)', 1 , 87);
+INSERT INTO FREE VALUES(3, '테스트', '김머리', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 42);
+INSERT INTO FREE VALUES(4, '자유1', '홍길동', SYSDATE, 
+'시카고 덩크 로우 드로우', 1 , 157);
+INSERT INTO FREE VALUES(5, '자유2', '이순신', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 81);
+INSERT INTO FREE VALUES(6, '자유3', '김머리', SYSDATE, 
+'덩크의 시대가 왔죠', 1 , 501);
+INSERT INTO FREE VALUES(7, '자유4', '홍길동', SYSDATE, 
+'나이키 / 덩크 로우 삼바, 시카고 래플 예정 / 나코공홈', 1 , 139);
+INSERT INTO FREE VALUES(8, '자유5', '이순신', SYSDATE, 
+'평일엔 편안한 후질근룩', 1 , 124);
+INSERT INTO FREE VALUES(9, '자유6', '김머리', SYSDATE, 
+'나이키 / 덩크로우 디스럽터 3컬러 출시 예정 / 공홈', 1 , 91);
+INSERT INTO FREE VALUES(10, '자유7', '홍길동', SYSDATE, 
+'신발 할인 기획전 오픈!', 1 , 531);
+INSERT INTO FREE VALUES(11, '자유8', '이순신', SYSDATE, 
+'테스트 페이지', 1 , 121);
+INSERT INTO FREE VALUES(12, '자유9', '김머리', SYSDATE, 
+'[카시나 덩크 로우 세일] 온라인 응모', 1 , 129);
+
+-- QNA 테이블 예시 컬럼값 삽입
+INSERT INTO QNA VALUES(1, '조던 신발 정보가 너무 궁금해요!', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 22);
+INSERT INTO QNA VALUES(2, '나이키 덩크 이 제품 관련 정보가 있을까요?', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 8);
+INSERT INTO QNA VALUES(3, '조던에 어울리는 바지 추천해주세요', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 4);
+INSERT INTO QNA VALUES(4, '조던1 시리즈가 컨버스보다 발볼이 넓나요?', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 57);
+INSERT INTO QNA VALUES(5, '덩크 유니버시티 블루', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 8);
+INSERT INTO QNA VALUES(6, '조던1 입문 추천', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 51);
+INSERT INTO QNA VALUES(7, '질문', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 39);
+INSERT INTO QNA VALUES(8, '질문', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 24);
+INSERT INTO QNA VALUES(9, '질문', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 1);
+INSERT INTO QNA VALUES(10, '질문', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 51);
+INSERT INTO QNA VALUES(11, '질문', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 21);
+INSERT INTO QNA VALUES(12, '질문', '질문자', SYSDATE, 
+'ㅁㄴㅇㄹ', 1 , 19);
+
+-- REVIEW 테이블 예시 컬럼값 삽입
+INSERT INTO REVIEW VALUES(1, '파랑맨투맨과 조던1그레이 조합!', '홍길동', SYSDATE, 
+'리뷰1', 1 , 14);
+INSERT INTO REVIEW VALUES(2, '덩크 유니버시티 블루', '이순신', SYSDATE, 
+'리뷰2', 1 , 12);
+INSERT INTO REVIEW VALUES(3, '나이키 / 조던 1 럭키그린 래플', '김머리', SYSDATE, 
+'리뷰3', 1 , 1);
+INSERT INTO REVIEW VALUES(4, '리뷰1', '홍길동', SYSDATE, 
+'리뷰4', 1 , DEFAULT);
+INSERT INTO REVIEW VALUES(5, '리뷰2', '이순신', SYSDATE, 
+'리뷰5', 1 , 1);
+INSERT INTO REVIEW VALUES(6, '리뷰3', '김머리', SYSDATE, 
+'리뷰6', 1 , 13);
+INSERT INTO REVIEW VALUES(7, '리뷰4', '홍길동', SYSDATE, 
+'리뷰7', 1 , DEFAULT);
+INSERT INTO REVIEW VALUES(8, '리뷰5', '이순신', SYSDATE, 
+'리뷰8', 1 , 11);
+INSERT INTO REVIEW VALUES(9, '리뷰6', '김머리', SYSDATE, 
+'리뷰9', 1 , DEFAULT);
+INSERT INTO REVIEW VALUES(10, '리뷰7', '홍길동', SYSDATE, 
+'리뷰0', 1 , 1);
+INSERT INTO REVIEW VALUES(11, '리뷰8', '이순신', SYSDATE, 
+'리뷰1', 1 , 10);
 
 -- 커밋 완료
 COMMIT;
