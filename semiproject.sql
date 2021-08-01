@@ -284,8 +284,8 @@ NOCACHE;
 -- 사용자 테이블 예시 컬럼값 삽입
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '사용자1', 'user01@ict.edu', 'pass01', 'user01@ict.edu', '01044321239', null, 280, default, default, null, null, default);
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '사용자2', 'user02@ict.edu', 'pass02', 'user02@ict.edu', '01022391212', null, 240, default, default, null, null, default);
-INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '관리자1', 'admin01@shoesgone.org', 'admin01', 'admin01@shoesgone.org', '01022492939', null, 255, default, 1, null, null, default);
-INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '백정현', 'bjhbhm@gmail.com', 'Z3VzMzEyOTA0MCE=', 'bjhbhm@gmail.com', '01025269040', null, 265, default, 1, null, null, default);
+INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '관리자1', 'admin01@shoesgone.org', 'admin01', 'admin01@shoesgone.org', '01022492939', null, 255, default, 'Y', null, null, default);
+INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '백정현', 'bjhbhm@gmail.com', 'Z3VzMzEyOTA0MCE=', 'bjhbhm@gmail.com', '01025269040', null, 265, default, 'Y', null, null, default);
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '홍길동', 'hong123@naver.com', 'hong123', 'hong123@naver.com', '01012345678', null, 270, default, 1, null, null, default);
 
 -- 아이템 테이블 예시 컬럼값 삽입
@@ -468,6 +468,15 @@ INSERT INTO POINTS VALUES (5, 1, SYSDATE, 200, '구매에 대한 적립금');
 INSERT INTO POINTS VALUES (5, 1, SYSDATE, 200, '구매에 대한 적립금');
 INSERT INTO POINTS VALUES (5, 1, SYSDATE, -550, '상품구매시 사용한 적립금');
 INSERT INTO POINTS VALUES (5, 1, SYSDATE, 200, '구매에 대한 적립금');
+
+--위시리스트 테이블 예시 컬럼값 삽입
+INSERT INTO WISH_LIST VALUES (1, 5, 1);
+INSERT INTO WISH_LIST VALUES (2, 5, 2);
+INSERT INTO WISH_LIST VALUES (3, 5, 3);
+INSERT INTO WISH_LIST VALUES (4, 5, 4);
+INSERT INTO WISH_LIST VALUES (5, 5, 5);
+INSERT INTO WISH_LIST VALUES (6, 5, 6);
+INSERT INTO WISH_LIST VALUES (7, 5, 7);
 
 -- 커밋 완료
 COMMIT;
