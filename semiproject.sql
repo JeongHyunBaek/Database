@@ -20,6 +20,7 @@ DROP TABLE REPLY CASCADE CONSTRAINTS;
 
 -- 기존에 존재하는 시퀀스 삭제
 DROP SEQUENCE ITEM_SEQ;
+DROP SEQUENCE ITEM_REG_STA_SEQ;
 DROP SEQUENCE USER_SEQ;
 DROP SEQUENCE ORDERS_SEQ;
 DROP SEQUENCE PICTURES_SEQ;
@@ -424,7 +425,7 @@ INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '사용자1', 'user01@ict.edu', '
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '사용자2', 'user02@ict.edu', 'pass02', 'user02@ict.edu', '01022391212', null, 240, default, default, null, null, default);
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '관리자1', 'admin01@shoesgone.org', 'admin01', 'admin01@shoesgone.org', '01022492939', null, 255, default, 'Y', null, null, default);
 INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '백정현', 'bjhbhm@gmail.com', 'Z3VzMzEyOTA0MCE=', 'bjhbhm@gmail.com', '01025269040', null, 265, default, 'Y', null, null, default);
-INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '홍길동', 'hong123@naver.com', 'hong123', 'hong123@naver.com', '01012345678', null, 270, default, 1, null, null, default);
+INSERT INTO USER_INFO VALUES(USER_SEQ.NEXTVAL, '홍길동', 'Shoesgone@ict.com', 'c2hvZXNnb25lMTIh', 'hong123@naver.com', '01012345678', null, 270, default, 'N', null, null, default);
 
 -- 아이템 테이블 예시 컬럼값 삽입
 INSERT INTO ITEM
