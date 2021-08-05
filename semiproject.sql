@@ -562,34 +562,50 @@ INSERT INTO SELL_BID
 VALUES (SELL_BID_SEQ.NEXTVAL, 2, 10, 270, '21/06/27', 533000, '카드결제', '아');
 
 -- 공지 테이블 예시 컬럼값 삽입
-INSERT INTO NOTICE VALUES(1, '관리자 게시글', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(1, '관리자 게시글', '관리자', sysdate, 
 '저희 사이트를 이용해 주셔서 감사합니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(2, '개인정보 처리방침 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(2, '개인정보 처리방침 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(3, '서비스 일시 중단 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(3, '서비스 일시 중단 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(4, '입고 지연 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(4, '입고 지연 안내', '관리자', sysdate, 
 '테스트 페이지입니다..', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(5, '휴무일 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(5, '휴무일 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(6, '7월 이벤트 당첨자 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(6, '7월 이벤트 당첨자 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(7, '이용약관 변경 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(7, '이용약관 변경 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(8, '가품거래 시도와 관련한 조치사항', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(8, '가품거래 시도와 관련한 조치사항', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(9, '부정거래 이용제한 조치 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(9, '부정거래 이용제한 조치 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(10, '개인정보 이용 처리방침 변경 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(10, '개인정보 이용 처리방침 변경 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
-INSERT INTO NOTICE VALUES(11, '택배사 휴무 안내', 'admin', sysdate, 
+INSERT INTO NOTICE VALUES(11, '택배사 휴무 안내', '관리자', sysdate, 
 '테스트 페이지입니다.', 1 , DEFAULT);
 
 -- 질문 테이블 예시 컬럼값 삽입
-INSERT INTO QUESTION VALUES(1, '배송문의', 'user01', SYSDATE, 
+INSERT INTO QUESTION VALUES(1, '배송문의', 'user01@ict.com@ict.com', SYSDATE, 
 '테스트 페이지 입니다.', DEFAULT, 1, 1, 1);
-INSERT INTO QUESTION VALUES(2, '답변입니다.', 'admin', SYSDATE, 
+INSERT INTO QUESTION VALUES(2, '답변입니다.', '관리자', SYSDATE, 
 '테스트 페이지입니다.', DEFAULT, 1, 2, 1);
+INSERT INTO QUESTION VALUES(3, '신상문의', 'Shoesgone@ict.com', SYSDATE, 
+'신상은 언제들어오나요?', DEFAULT, 3, 1, 1);
+INSERT INTO QUESTION VALUES(4, '답변입니다.', '관리자', SYSDATE, 
+'테스트 페이지입니다.', DEFAULT, 3, 2, 1);
+INSERT INTO QUESTION VALUES(5, '배송문의', 'user03@ict.com@ict.com', SYSDATE, 
+'테스트 페이지 입니다.', DEFAULT, 5, 1, 1);
+INSERT INTO QUESTION VALUES(6, '답변입니다.', '관리자', SYSDATE, 
+'테스트 페이지입니다.', DEFAULT, 5, 2, 1);
+INSERT INTO QUESTION VALUES(7, '배송문의', 'Shoesgone@ict.com', SYSDATE, 
+'테스트 페이지 입니다.', DEFAULT, 7, 1, 1);
+INSERT INTO QUESTION VALUES(8, '답변입니다.', '관리자', SYSDATE, 
+'테스트 페이지입니다.', DEFAULT, 7, 2, 1);
+INSERT INTO QUESTION VALUES(9, '배송문의', 'user02@ict.com@ict.com', SYSDATE, 
+'테스트 페이지 입니다.', DEFAULT, 9, 1, 1);
+INSERT INTO QUESTION VALUES(10, '답변입니다.', '관리자', SYSDATE, 
+'테스트 페이지입니다.', DEFAULT, 9, 2, 1);
 
 -- 주문 테이블 예시 컬럼값 삽입
 INSERT INTO ORDERS
@@ -2926,10 +2942,28 @@ INSERT INTO ORDERS
 VALUES ((SELECT MAX(ORDERS_NO)+1 FROM ORDERS), 4, 24, 1, '21/1/5', 1, '입금대기중', 249000, '주소', 280, '전화번호', 2000, '가상계좌');
 
 -- 자주하는 질문 테이블 예시 컬럼값 삽입
-INSERT INTO FAQ VALUES(1, '해외에서 직구한 상품을 판매해도 되나요?', 'admin', SYSDATE, 
+INSERT INTO FAQ VALUES(1, '해외에서 직구한 상품을 판매해도 되나요?', '관리자', SYSDATE, 
 '미화 150달러 이하(미국에서 구매할 경우 미화 200달러 이하)의 자가 사용 목적으로 구매한 상품을 국내에 판매할 경우, 관세법상 처벌 대상이 됩니다.
 관세를 정상적으로 납부한 상품을 판매하는 것은 관세법상 위법은 아니지만, 지속적으로 판매할 경우 조사 대상이 될 수 있으므로 주의가 필요합니다.
 자세한 내용은 관세청 고객지원센터(국번없이 125)로 문의바랍니다.', DEFAULT , 1);
+INSERT INTO FAQ VALUES(2, '부적절한 거래 금지', '관리자', SYSDATE, 
+' 
+아래에 해당하는 경우, 이용약관 제 7조(이용제한 등)에 따라 일시 정지나 영구이용정지 조치됩니다. 허위사실 유포 관련 고의성이 확인될 시, 유관부서로 이관되어 처리될 수 있습니다.
+ 
+가품 거래 시도
+중고품 거래 시도
+여러 개의 계정을 생성하여 자전거래
+포인트 획득, 시세 조작 등의 목적으로 지인과 공모한 허위 거래
+신용카드 불법 현금 유통 (소위 카드깡)
+커뮤니티 내 허위사실 유포 등 서비스 운영을 방해하는 각종 부정행위
+ ', DEFAULT , 1);
+INSERT INTO FAQ VALUES(3, '구매와 판매는 어떤 방식으로 이루어지나요?', '관리자', SYSDATE, 
+'구매자와 판매자가 각각 원하는 구매/판매 가격으로 입찰할 수 있으며, 가격이 일치하면 거래가 체결됩니다. 
+또한, 구매자는 판매자의 입찰 중 가장 낮은 가격으로 즉시 구매할 수 있으며, 판매자는 구매자의 입찰 중 가장 높은 가격으로 즉시 판매할 수 있습니다.', DEFAULT , 1);
+INSERT INTO FAQ VALUES(4, '판매자의 페널티 결제 정보는 왜 필요한가요?', '관리자', SYSDATE, 
+'다음과 같은 경우에 shoesgone에서는 판매자에게 페널티를 부과하게 되므로, 판매자에게도 별도의 결제 정보를 요청하고 있습니다.
+ 
+허위/불량 상품을 등록하여 발송한 경우,판매 거래 체결 이후 판매 거부를 선택하는 경우, 거래 체결 후 발송 정보를 입력하지 않는 경우', DEFAULT , 1);
 
 -- 사진 테이블 예시 컬럼값 삽입
 INSERT INTO PICTURES VALUES(PICTURES_SEQ.NEXTVAL, 9, '555088-035_0.png');
@@ -3014,11 +3048,11 @@ INSERT INTO WISH_LIST VALUES (WISH_LIST_SEQ.NEXTVAL, 5, 6);
 INSERT INTO WISH_LIST VALUES (WISH_LIST_SEQ.NEXTVAL, 5, 7);
 
 -- 자유게시판 테이블 예시 컬럼값 삽입
-INSERT INTO FREE VALUES(1, '자유', '1', SYSDATE, '덩크 드로우 전부 광탈!', 1 , 722);
-INSERT INTO FREE VALUES(2, '게시판', '1', SYSDATE, '특이점이 온 조던 케이스.jpg (feat.리버풀)', 1 , 87);
-INSERT INTO FREE VALUES(3, '테스트', '1', SYSDATE, 'ㅁㄴㅇㄹ', 1 , 42);
-INSERT INTO FREE VALUES(4, '자유1', '1', SYSDATE, '시카고 덩크 로우 드로우', 1 , 157);
-INSERT INTO FREE VALUES(5, '자유2', '1', SYSDATE, 'ㅁㄴㅇㄹ', 1 , 81);
+INSERT INTO FREE VALUES(1, '자유', '5', SYSDATE, '덩크 드로우 전부 광탈!', 1 , 722);
+INSERT INTO FREE VALUES(2, '게시판', '5', SYSDATE, '특이점이 온 조던 케이스.jpg (feat.리버풀)', 1 , 87);
+INSERT INTO FREE VALUES(3, '테스트', '5', SYSDATE, 'ㅁㄴㅇㄹ', 1 , 42);
+INSERT INTO FREE VALUES(4, '자유1', '5', SYSDATE, '시카고 덩크 로우 드로우', 1 , 157);
+INSERT INTO FREE VALUES(5, '자유2', '5', SYSDATE, 'ㅁㄴㅇㄹ', 1 , 81);
 INSERT INTO FREE VALUES(6, '자유3', '1', SYSDATE, '덩크의 시대가 왔죠', 1 , 501);
 INSERT INTO FREE VALUES(7, '자유4', '1', SYSDATE, '나이키 / 덩크 로우 삼바, 시카고 래플 예정 / 나코공홈', 1 , 139);
 INSERT INTO FREE VALUES(8, '자유5', '1', SYSDATE, '평일엔 편안한 후질근룩', 1 , 124);
