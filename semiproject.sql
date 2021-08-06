@@ -363,20 +363,26 @@ CREATE TABLE FREE(
  FREE_WRITER NUMBER REFERENCES USER_INFO(USER_NO),
  FREE_DATE DATE DEFAULT SYSDATE,
  FREE_CONTENT VARCHAR2(4000),
- FREE_LIKE NUMBER,
+ FREE_ORIGINAL_FILENAME VARCHAR2(100),
+ FREE_RENAME_FILENAME VARCHAR2(100),
+ FREE_LIKE NUMBER default 0,
+ FREE_UNLIKE NUMBER DEFAULT 0,
  FREE_READCOUNT NUMBER DEFAULT 0,
  CONSTRAINT PK_FREE PRIMARY KEY (FREE_NO)
 );
 
 -- QNA 테이블 생성
-CREATE TABLE qna(
- QnA_NO NUMBER,
- QnA_TITLE VARCHAR2(60),
- QnA_WRITER NUMBER REFERENCES USER_INFO(USER_NO),
- QnA_DATE DATE DEFAULT SYSDATE,
- QnA_CONTENT VARCHAR2(4000),
- QnA_LIKE NUMBER,
- QnA_READCOUNT NUMBER DEFAULT 0,
+CREATE TABLE QNA(
+ QNA_NO NUMBER,
+ QNA_TITLE VARCHAR2(60),
+ QNA_WRITER NUMBER REFERENCES USER_INFO(USER_NO),
+ QNA_DATE DATE DEFAULT SYSDATE,
+ QNA_CONTENT VARCHAR2(4000),
+ QNA_ORIGINAL_FILENAME VARCHAR2(100),
+ QNA_RENAME_FILENAME VARCHAR2(100),
+ QNA_LIKE NUMBER default 0,
+ QNA_UNLIKE NUMBER DEFAULT 0,
+ QNA_READCOUNT NUMBER DEFAULT 0,
  CONSTRAINT PK_QnA PRIMARY KEY (QnA_NO)
 );
 
@@ -387,9 +393,12 @@ CREATE TABLE REVIEW(
  REVIEW_WRITER NUMBER REFERENCES USER_INFO(USER_NO),
  REVIEW_DATE DATE DEFAULT SYSDATE,
  REVIEW_CONTENT VARCHAR2(4000),
+ REVIEW_ORIGINAL_FILENAME VARCHAR2(100),
+ REVIEW_RENAME_FILENAME VARCHAR2(100),
  REVIEW_ITEMNO NUMBER,
  REVIEW_STAR NUMBER,
- REVIEW_LIKE NUMBER,
+ REVIEW_LIKE NUMBER default 0,
+ REVIEW_UNLIKE NUMBER DEFAULT 0,
  REVIEW_READCOUNT NUMBER DEFAULT 0,
  CONSTRAINT PK_REVIEW PRIMARY KEY (REVIEW_NO)
 );
@@ -401,7 +410,10 @@ CREATE TABLE GALLERY(
  GALLERY_WRITER NUMBER REFERENCES USER_INFO(USER_NO),
  GALLERY_DATE DATE DEFAULT SYSDATE,
  GALLERY_CONTENT VARCHAR2(4000),
- GALLERY_LIKE NUMBER,
+ GALLERY_ORIGINAL_FILENAME VARCHAR2(100),
+ GALLERY_RENAME_FILENAME VARCHAR2(100),
+ GALLERY_LIKE NUMBER default 0,
+ GALLERY_UNLIKE NUMBER DEFAULT 0,
  GALLERY_READCOUNT NUMBER DEFAULT 0,
  CONSTRAINT PK_GALLERY PRIMARY KEY (GALLERY_NO)
 );
@@ -409,14 +421,16 @@ CREATE TABLE GALLERY(
 -- REPLY 테이블 생성
 CREATE TABLE REPLY(
 REPLY_NO NUMBER,
-CHILD_REPLY_NO NUMBER,
-REPLY_SEQ NUMBER,
+PARENT_REPLY_NO NUMBER,
 REPLY_LEVEL NUMBER,
+REPLY_ORDER NUMBER,
 BOARD_TYPE VARCHAR2(20 BYTE),
 BOARD_NO NUMBER,
 REPLY_WRITER NUMBER REFERENCES USER_INFO(USER_NO),
 REPLY_DATE DATE DEFAULT SYSDATE,
 REPLY_CONTENT VARCHAR2(2048),
+REPLY_LIKE NUMBER default 0,
+REPLY_UNLIKE NUMBER DEFAULT 0,
 CONSTRAINT REPLY_NO_PK PRIMARY KEY (REPLY_NO)
 );
 
@@ -3048,66 +3062,67 @@ INSERT INTO WISH_LIST VALUES (WISH_LIST_SEQ.NEXTVAL, 5, 6);
 INSERT INTO WISH_LIST VALUES (WISH_LIST_SEQ.NEXTVAL, 5, 7);
 
 -- 자유게시판 테이블 예시 컬럼값 삽입
-INSERT INTO FREE VALUES(1, '자유', '5', SYSDATE, '덩크 드로우 전부 광탈!', 1 , 722);
-INSERT INTO FREE VALUES(2, '게시판', '5', SYSDATE, '특이점이 온 조던 케이스.jpg (feat.리버풀)', 1 , 87);
-INSERT INTO FREE VALUES(3, '테스트', '5', SYSDATE, 'ㅁㄴㅇㄹ', 1 , 42);
-INSERT INTO FREE VALUES(4, '자유1', '5', SYSDATE, '시카고 덩크 로우 드로우', 1 , 157);
-INSERT INTO FREE VALUES(5, '자유2', '5', SYSDATE, 'ㅁㄴㅇㄹ', 1 , 81);
-INSERT INTO FREE VALUES(6, '자유3', '1', SYSDATE, '덩크의 시대가 왔죠', 1 , 501);
-INSERT INTO FREE VALUES(7, '자유4', '1', SYSDATE, '나이키 / 덩크 로우 삼바, 시카고 래플 예정 / 나코공홈', 1 , 139);
-INSERT INTO FREE VALUES(8, '자유5', '1', SYSDATE, '평일엔 편안한 후질근룩', 1 , 124);
-INSERT INTO FREE VALUES(9, '자유6', '1', SYSDATE, '나이키 / 덩크로우 디스럽터 3컬러 출시 예정 / 공홈', 1 , 91);
-INSERT INTO FREE VALUES(10, '자유7', '1', SYSDATE, '신발 할인 기획전 오픈!', 1 , 531);
-INSERT INTO FREE VALUES(11, '자유8', '1', SYSDATE, '테스트 페이지', 1 , 121);
-INSERT INTO FREE VALUES(12, '자유9', '1', SYSDATE, '[카시나 덩크 로우 세일] 온라인 응모', 1 , 129);
+INSERT INTO FREE VALUES(1, '자유', '1', SYSDATE, '덩크 드로우 전부 광탈!', null, null, 1, default, 722);
+INSERT INTO FREE VALUES(2, '게시판', '1', SYSDATE, '특이점이 온 조던 케이스.jpg (feat.리버풀)', null, null, 1, default, 87);
+INSERT INTO FREE VALUES(3, '테스트', '1', SYSDATE, 'ㅁㄴㅇㄹ', null, null, 1, default, 42);
+INSERT INTO FREE VALUES(4, '자유1', '1', SYSDATE, '시카고 덩크 로우 드로우', null, null, 1, default, 157);
+INSERT INTO FREE VALUES(5, '자유2', '1', SYSDATE, 'ㅁㄴㅇㄹ', null, null, 1, default, 81);
+INSERT INTO FREE VALUES(6, '자유3', '1', SYSDATE, '덩크의 시대가 왔죠', null, null, 1, default, 501);
+INSERT INTO FREE VALUES(7, '자유4', '1', SYSDATE, '나이키 / 덩크 로우 삼바, 시카고 래플 예정 / 나코공홈', null, null, 1, default, 139);
+INSERT INTO FREE VALUES(8, '자유5', '1', SYSDATE, '평일엔 편안한 후질근룩', null, null, 1, default, 124);
+INSERT INTO FREE VALUES(9, '자유6', '1', SYSDATE, '나이키 / 덩크로우 디스럽터 3컬러 출시 예정 / 공홈', null, null, 1, default, 91);
+INSERT INTO FREE VALUES(10, '자유7', '1', SYSDATE, '신발 할인 기획전 오픈!', null, null, 1, default, 531);
+INSERT INTO FREE VALUES(11, '자유8', '1', SYSDATE, '테스트 페이지', null, null, 1, default, 121);
+INSERT INTO FREE VALUES(12, '자유9', '1', SYSDATE, '[카시나 덩크 로우 세일] 온라인 응모', null, null, 1, default, 129);
 
 -- QNA 테이블 예시 컬럼값 삽입
-INSERT INTO QNA VALUES(1, '조던 신발 정보가 너무 궁금해요!', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 22);
-INSERT INTO QNA VALUES(2, '나이키 덩크 이 제품 관련 정보가 있을까요?', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 8);
-INSERT INTO QNA VALUES(3, '조던에 어울리는 바지 추천해주세요', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 4);
-INSERT INTO QNA VALUES(4, '조던1 시리즈가 컨버스보다 발볼이 넓나요?', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 57);
-INSERT INTO QNA VALUES(5, '덩크 유니버시티 블루', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 8);
-INSERT INTO QNA VALUES(6, '조던1 입문 추천', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 51);
-INSERT INTO QNA VALUES(7, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 39);
-INSERT INTO QNA VALUES(8, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 24);
-INSERT INTO QNA VALUES(9, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 1);
-INSERT INTO QNA VALUES(10, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 51);
-INSERT INTO QNA VALUES(11, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 21);
-INSERT INTO QNA VALUES(12, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', 1 , 19);
+INSERT INTO QNA VALUES(1, '조던 신발 정보가 너무 궁금해요!', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 22);
+INSERT INTO QNA VALUES(2, '나이키 덩크 이 제품 관련 정보가 있을까요?', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 8);
+INSERT INTO QNA VALUES(3, '조던에 어울리는 바지 추천해주세요', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 4);
+INSERT INTO QNA VALUES(4, '조던1 시리즈가 컨버스보다 발볼이 넓나요?', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 57);
+INSERT INTO QNA VALUES(5, '덩크 유니버시티 블루', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 8);
+INSERT INTO QNA VALUES(6, '조던1 입문 추천', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 51);
+INSERT INTO QNA VALUES(7, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 39);
+INSERT INTO QNA VALUES(8, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 24);
+INSERT INTO QNA VALUES(9, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 1);
+INSERT INTO QNA VALUES(10, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 51);
+INSERT INTO QNA VALUES(11, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 21);
+INSERT INTO QNA VALUES(12, '질문', '2', SYSDATE, '답변입니다답변입니다답변입니다', null, null, 1, default, 19);
 
 -- REVIEW 테이블 예시 컬럼값 삽입
-INSERT INTO REVIEW VALUES(1, '파랑맨투맨과 조던1그레이 조합!', '5', SYSDATE, '리뷰1', 1, 0 , 1 , 14);
-INSERT INTO REVIEW VALUES(2, '덩크 유니버시티 블루', '1', SYSDATE, '리뷰2', 1, 2 , 1 , 12);
-INSERT INTO REVIEW VALUES(3, '나이키 / 조던 1 럭키그린 래플', '2', SYSDATE, '리뷰3', 1, 9 , 1 , 1);
-INSERT INTO REVIEW VALUES(4, '리뷰1', '5', SYSDATE, '리뷰4', 1, 1 , 1 , DEFAULT);
-INSERT INTO REVIEW VALUES(5, '리뷰2', '1', SYSDATE, '리뷰5', 1, 5 , 1 , 1);
-INSERT INTO REVIEW VALUES(6, '리뷰3', '2', SYSDATE, '리뷰6', 1, 8 , 1 , 13);
-INSERT INTO REVIEW VALUES(7, '리뷰4', '5', SYSDATE, '리뷰7', 1, 3 , 1 , DEFAULT);
-INSERT INTO REVIEW VALUES(8, '리뷰5', '1', SYSDATE, '리뷰8', 1, 0 , 1 , 11);
-INSERT INTO REVIEW VALUES(9, '리뷰6', '2', SYSDATE, '리뷰9', 1, 7 , 1 , DEFAULT);
-INSERT INTO REVIEW VALUES(10, '리뷰7', '5', SYSDATE, '리뷰0', 1, 4 , 1 , 1);
-INSERT INTO REVIEW VALUES(11, '리뷰8', '1', SYSDATE, '리뷰1', 1, 6 , 1 , 10);
+INSERT INTO REVIEW VALUES(1, '파랑맨투맨과 조던1그레이 조합!', '5', SYSDATE, '리뷰1', NULL, NULL, 1, 0 , 1, DEFAULT, 14);
+INSERT INTO REVIEW VALUES(2, '덩크 유니버시티 블루', '1', SYSDATE, '리뷰2', NULL, NULL, 1, 2 , 1, DEFAULT, 12);
+INSERT INTO REVIEW VALUES(3, '나이키 / 조던 1 럭키그린 래플', '2', SYSDATE, '리뷰3', NULL, NULL, 1, 9 , 1, DEFAULT,  1);
+INSERT INTO REVIEW VALUES(4, '리뷰1', '5', SYSDATE, '리뷰4', NULL, NULL, 1, 1 , 1, DEFAULT,  DEFAULT);
+INSERT INTO REVIEW VALUES(5, '리뷰2', '1', SYSDATE, '리뷰5', NULL, NULL, 1, 5 , 1, DEFAULT,  1);
+INSERT INTO REVIEW VALUES(6, '리뷰3', '2', SYSDATE, '리뷰6', NULL, NULL, 1, 8 , 1, DEFAULT,  13);
+INSERT INTO REVIEW VALUES(7, '리뷰4', '5', SYSDATE, '리뷰7', NULL, NULL, 1, 3 , 1, DEFAULT,  DEFAULT);
+INSERT INTO REVIEW VALUES(8, '리뷰5', '1', SYSDATE, '리뷰8', NULL, NULL, 1, 0 , 1, DEFAULT,  11);
+INSERT INTO REVIEW VALUES(9, '리뷰6', '2', SYSDATE, '리뷰9', NULL, NULL, 1, 7 , 1, DEFAULT,  DEFAULT);
+INSERT INTO REVIEW VALUES(10, '리뷰7', '5', SYSDATE, '리뷰0', NULL, NULL, 1, 4 , 1, DEFAULT,  1);
+INSERT INTO REVIEW VALUES(11, '리뷰8', '1', SYSDATE, '리뷰10', NULL, NULL, 1, 6 , 1, DEFAULT,  10);
 
 -- GALLERY 테이블 예시 컬럼값 삽입
-INSERT INTO GALLERY VALUES(1, '조던1 하이 레트로 코트퍼플', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 31 , 105);
-INSERT INTO GALLERY VALUES(2, '조던1 로우 블랙토', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 14 , 87);
-INSERT INTO GALLERY VALUES(3, '조던1 로얄토', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 18 , 325);
-INSERT INTO GALLERY VALUES(4, '조던 1 미드 울프 그레이 우먼', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 19 , 103);
-INSERT INTO GALLERY VALUES(5, '덩크로우 코스트 블루', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 10 , 61);
-INSERT INTO GALLERY VALUES(6, '덩크로우 레트로 블랙', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 13 , 71);
-INSERT INTO GALLERY VALUES(7, '덩크 로우 시카고', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 17 , 164);
-INSERT INTO GALLERY VALUES(8, '나이키 x 엠부쉬 덩크 하이 블랙', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 11 , 412);
-INSERT INTO GALLERY VALUES(9, '조던1 브레드', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 10 , 234);
-INSERT INTO GALLERY VALUES(10, '조던 미드1 라이트 스모크 그레이', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 61 , 448);
-INSERT INTO GALLERY VALUES(11, '카시나 x 나이키 덩크 로우 블루 80 버스', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 51 , 425);
-INSERT INTO GALLERY VALUES(12, '나이키 x 엠부쉬 덩크 하이 블랙', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', 21 , 245);
+INSERT INTO GALLERY VALUES(1, '조던1 하이 레트로 코트퍼플', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 31 , default, 105);
+INSERT INTO GALLERY VALUES(2, '조던1 로우 블랙토', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 14 , default, 87);
+INSERT INTO GALLERY VALUES(3, '조던1 로얄토', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 18 , default, 325);
+INSERT INTO GALLERY VALUES(4, '조던 1 미드 울프 그레이 우먼', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 19 , default, 103);
+INSERT INTO GALLERY VALUES(5, '덩크로우 코스트 블루', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 10, default, 61);
+INSERT INTO GALLERY VALUES(6, '덩크로우 레트로 블랙', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 13, default, 71);
+INSERT INTO GALLERY VALUES(7, '덩크 로우 시카고', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 17, default, 164);
+INSERT INTO GALLERY VALUES(8, '나이키 x 엠부쉬 덩크 하이 블랙', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 11, default, 412);
+INSERT INTO GALLERY VALUES(9, '조던1 브레드', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 10, default, 234);
+INSERT INTO GALLERY VALUES(10, '조던 미드1 라이트 스모크 그레이', '2', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 61, default, 448);
+INSERT INTO GALLERY VALUES(11, '카시나 x 나이키 덩크 로우 블루 80 버스', '5', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 51, default, 425);
+INSERT INTO GALLERY VALUES(12, '나이키 x 엠부쉬 덩크 하이 블랙', '1', SYSDATE, '갤러리 게시판 내용 갤러리 게시판 내용 갤러리 게시판 내용', null, null, 21, default, 245);
 
 -- REPLY 테이블 예시 컬럼값 삽입
-INSERT INTO REPLY values(1, 1, 1, 1,	'FREE',	1, '5', sysdate, '자유게시판 1번 글의 댓글 첫번째입니다.');
-INSERT INTO REPLY values(2, 2, 2, 2, 'FREE',	1, '1', sysdate,	'자유게시판 1번 글의 댓글 첫번째에 달린 답글입니다.');
-INSERT INTO REPLY values(3, 1, 1, 1,	'REVIEW', 2, '5', sysdate, '리뷰게시판 2번 글의 첫번째 댓글입니다.');
-INSERT INTO REPLY values(4, 1, 1,	 1,	'QNA', 3,	'2', sysdate, 'QnA게시판 3번 글의 첫번째 댓글입니다.');
-INSERT INTO REPLY values(5, 1, 1,	 1,	'GALLERY', 1, '1', sysdate, '갤러리게시판 1번 글의 첫번째 댓글입니다.');
+INSERT INTO REPLY values(1, 0, 1, 1, 'FREE',   12, '5', sysdate, '자유게시판 1번 글의 댓글 첫번째입니다.', default, default);
+INSERT INTO REPLY values(2, 1, 2, 1, 'FREE',   12, '1', sysdate,   '자유게시판 1번 글의 댓글 첫번째에 달린 답글입니다.', default, default);
+INSERT INTO REPLY values(3, 1, 1, 3, 'REVIEW', 2, '5', sysdate, '리뷰게시판 2번 글의 첫번째 댓글입니다.', default, default);
+INSERT INTO REPLY values(4, 1, 1, 4, 'QNA', 3,   '2', sysdate, 'QnA게시판 3번 글의 첫번째 댓글입니다.', default, default);
+INSERT INTO REPLY values(5, 1, 1, 5, 'GALLERY', 1, '1', sysdate, '갤러리게시판 1번 글의 첫번째 댓글입니다.', default, default);
+INSERT INTO REPLY values(6, 0, 1, 6, 'FREE', 12, '5', sysdate, '댓글.', 1, default);
 
 -- 커밋 완료
 COMMIT;
